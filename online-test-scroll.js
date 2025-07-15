@@ -85,7 +85,7 @@ function showAnalysis() {
 
   questions.forEach((q, i) => {
     const userAnswer = selectedAnswers[i];
-    let feedback = "Not Attempted", feedbackClass = "not-attempted-feedback";
+    let feedback = "Question Not Attempted", feedbackClass = "not-attempted-feedback";
 
     if (userAnswer !== undefined) {
       const isCorrect = userAnswer === q.answer;
