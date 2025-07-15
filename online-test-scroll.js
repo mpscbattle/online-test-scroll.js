@@ -1,3 +1,4 @@
+
 const quizDiv = document.getElementById("quiz");
 const timerDiv = document.getElementById("timer");
 const submitBtn = document.getElementById("submitBtn");
@@ -23,9 +24,9 @@ function renderAllQuestions() {
   let html = "";
   questions.forEach((q, index) => {
     html += `<div class="question-card">
-      <div class="question-number-circle">${index + 1}</div>
-      <div class="question">${q.question}</div>
-      <div class="options">`;
+        <div class="question-number-circle">${index + 1}</div>
+        <div class="question">${q.question}</div>
+        <div class="options">`;
     q.options.forEach((opt, i) => {
       const isSelected = selectedAnswers[index] === i ? " selected" : "";
       html += `<div class='option${isSelected}' onclick='selectAnswer(${index}, ${i})'>${opt}</div>`;
@@ -94,8 +95,8 @@ function showAnalysis() {
     }
 
     let html = `<div class='analysis-box'>
-      <div class="question-number-circle">${i + 1}</div>
-      <div><b>${q.question}</b></div>`;
+        <div class="question-number-circle">${i + 1}</div>
+        <div><b>${q.question}</b></div>`;
     q.options.forEach((opt, j) => {
       let cls = "option";
       if (j === q.answer) cls += " correct";
@@ -104,7 +105,12 @@ function showAnalysis() {
     });
     html += `<div class='feedback ${feedbackClass}'>${feedback}</div>`;
     html += `<div style='margin-top:5px;'>👉 Correct Answer : <b>${q.options[q.answer]}</b></div>`;
-    html += `</div>`;
+    html += `</div>`; // Close analysis-box
+
+    // Add a horizontal line after each question analysis, except the last one
+    if (i < questions.length - 1) {
+      html += '<hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">';
+    }
     container.innerHTML += html;
   });
 
@@ -124,3 +130,4 @@ startBtn.onclick = () => {
 submitBtn.onclick = submitResults;
 resetBtn.onclick = () => location.reload();
 viewAnalysisBtn.onclick = showAnalysis;
+
