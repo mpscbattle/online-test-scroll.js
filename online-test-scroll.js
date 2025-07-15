@@ -22,11 +22,10 @@ document.querySelectorAll(".question-data").forEach(qEl => {
 function renderAllQuestions() {
   let html = "";
   questions.forEach((q, index) => {
-    html += `
-      <div class="question-card">
-        <div class="question-number-circle">${index + 1}</div>
-        <div class="question">${q.question}</div>
-        <div class="options">`;
+    html += `<div class="question-card">
+      <div class="question-number-circle">${index + 1}</div>
+      <div class="question">${q.question}</div>
+      <div class="options">`;
     q.options.forEach((opt, i) => {
       const isSelected = selectedAnswers[index] === i ? " selected" : "";
       html += `<div class='option${isSelected}' onclick='selectAnswer(${index}, ${i})'>${opt}</div>`;
@@ -57,6 +56,7 @@ function submitResults() {
   clearInterval(timerInterval);
   document.getElementById("quizBox").style.display = 'none';
   reportCard.style.display = 'block';
+  analysisCard.style.display = 'none';
 
   let attempted = selectedAnswers.filter(v => v !== undefined).length;
   correctCount = selectedAnswers.filter((v, i) => v === questions[i].answer).length;
@@ -75,15 +75,11 @@ function submitResults() {
   document.getElementById("resultMessage").textContent = msg;
 
   quizLocked = questions.map(() => true);
-
-  setTimeout(() => {
-    reportCard.scrollIntoView({ behavior: "smooth" });
-  }, 300);
+  setTimeout(() => reportCard.scrollIntoView({ behavior: "smooth" }), 300);
 }
 
 function showAnalysis() {
   analysisCard.style.display = 'block';
-  reportCard.style.display = 'none';
   const container = document.getElementById("analysisContent");
   container.innerHTML = "";
 
@@ -107,10 +103,12 @@ function showAnalysis() {
       html += `<div class='${cls}' style='margin: 5px 0;'>${opt}</div>`;
     });
     html += `<div class='feedback ${feedbackClass}'>${feedback}</div>`;
-    html += `<div style='margin-top:5px;'>Correct Answer  : <b>${q.options[q.answer]}</b></div>`;
+    html += `<div style='margin-top:5px;'>👉 Correct Answer : <b>${q.options[q.answer]}</b></div>`;
     html += `</div>`;
     container.innerHTML += html;
   });
+
+  setTimeout(() => analysisCard.scrollIntoView({ behavior: "smooth" }), 300);
 }
 
 startBtn.onclick = () => {
