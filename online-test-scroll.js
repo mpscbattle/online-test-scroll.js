@@ -16,7 +16,8 @@ document.querySelectorAll(".question-data").forEach(qEl => {
   const q = qEl.querySelector(".q").innerText;
   const opts = Array.from(qEl.querySelectorAll(".opt")).map(el => el.innerText);
   const ans = parseInt(qEl.getAttribute("data-answer"));
-  questions.push({ question: q, options: opts, answer: ans });
+  const explanation = qEl.getAttribute("data-explanation") || ""; // Explanation yahan se retrieve hoga
+  questions.push({ question: q, options: opts, answer: ans, explanation: explanation }); // Explanation object mein add kiya
 });
 
 function renderAllQuestions() {
@@ -85,7 +86,7 @@ function showAnalysis() {
 
   questions.forEach((q, i) => {
     const userAnswer = selectedAnswers[i];
-    let feedback = "Question Not Attempted", feedbackClass = "not-attempted-feedback";
+    let feedback = "Not Attempted", feedbackClass = "not-attempted-feedback";
 
     if (userAnswer !== undefined) {
       const isCorrect = userAnswer === q.answer;
@@ -103,6 +104,11 @@ function showAnalysis() {
       html += `<div class='${cls}' style='margin: 5px 0;'>${opt}</div>`;
     });
     html += `<div class='feedback ${feedbackClass}'>${feedback}</div>`;
+    
+    // Explanation box yahan add kiya jaayega
+    if (q.explanation) {
+      html += `<div class='explanation-box'><b>Explanation:</b> ${q.explanation}</div>`;
+    }
   
     container.innerHTML += html;
   });
