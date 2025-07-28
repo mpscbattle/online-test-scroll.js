@@ -9,22 +9,22 @@ const startBtn = document.getElementById("startBtn");
 const onlineTestBtn = document.getElementById("onlineTestBtn");
 
 let selectedAnswers = [], quizLocked = [], correctCount = 0;
-let timer = 1200, timerStarted = false, timerInterval;
+let timer = 1500, timerStarted = false, timerInterval;
 
 const questions = [];
 document.querySelectorAll(".question-data").forEach(qEl => {
   const q = qEl.querySelector(".q").innerText;
   const opts = Array.from(qEl.querySelectorAll(".opt")).map(el => el.innerText);
   const ans = parseInt(qEl.getAttribute("data-answer"));
-  const explanation = qEl.getAttribute("data-explanation") || ""; // Explanation yahan se retrieve hoga
-  questions.push({ question: q, options: opts, answer: ans, explanation: explanation }); // Explanation object mein add kiya
+  const explanation = qEl.getAttribute("data-explanation") || "";
+  questions.push({ question: q, options: opts, answer: ans, explanation : explanation });
 });
 
 function renderAllQuestions() {
   let html = "";
   questions.forEach((q, index) => {
     html += `<div class="question-card">
-      <div class="question-number-circle">${index + 1}</div>
+      <div class="question-number-text">${index + 1} out of ${questions.length}</div>
       <div class="question">${q.question}</div>
       <div class="options">`;
     q.options.forEach((opt, i) => {
@@ -86,7 +86,7 @@ function showAnalysis() {
 
   questions.forEach((q, i) => {
     const userAnswer = selectedAnswers[i];
-    let feedback = "Not Attempted", feedbackClass = "not-attempted-feedback";
+    let feedback = "Not Attempted Question", feedbackClass = "not-attempted-feedback";
 
     if (userAnswer !== undefined) {
       const isCorrect = userAnswer === q.answer;
@@ -95,24 +95,23 @@ function showAnalysis() {
     }
 
     let html = `<div class='analysis-box'>
-      <div class="question-number-circle">${i + 1}</div>
+      <div class="question-number-text">${i + 1} out of ${questions.length}</div>
       <div><b>${q.question}</b></div>`;
+
     q.options.forEach((opt, j) => {
       let cls = "option";
       if (j === q.answer) cls += " correct";
       if (j === userAnswer && j !== q.answer) cls += " wrong";
       html += `<div class='${cls}' style='margin: 5px 0;'>${opt}</div>`;
     });
+
     html += `<div class='feedback ${feedbackClass}'>${feedback}</div>`;
-    
-    // Explanation box yahan add kiya jaayega
+
     if (q.explanation) {
       html += `<div class='explanation-box'><b>Explanation:</b> ${q.explanation}</div>`;
     }
-  
     container.innerHTML += html;
   });
-
   setTimeout(() => analysisCard.scrollIntoView({ behavior: "smooth" }), 300);
 }
 
