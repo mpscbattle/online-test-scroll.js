@@ -24,7 +24,7 @@ function renderAllQuestions() {
   let html = "";
   questions.forEach((q, index) => {
     html += `<div class="question-card">
-      <div class="question-number-text">${index + 1} out of ${questions.length}</div>
+      <div class="question-number-text">$ Question {index + 1} of ${questions.length}</div>
       <div class="question">${q.question}</div>
       <div class="options">`;
     q.options.forEach((opt, i) => {
@@ -108,7 +108,7 @@ function showAnalysis() {
     html += `<div class='feedback ${feedbackClass}'>${feedback}</div>`;
 
     if (q.explanation) {
-      html += `<div class='explanation-box'><b>Explanation:</b> ${q.explanation}</div>`;
+      html += `<div class='explanation-box'><b>Explanation : </b> ${q.explanation}</div>`;
     }
     container.innerHTML += html;
   });
